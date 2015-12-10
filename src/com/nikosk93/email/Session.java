@@ -40,18 +40,21 @@ public class Session extends Thread {
 		String input;
 		
 		while(true) {
-			output.addPatternLine('=', 10);
+			output.addPatternLine('=', 12);
 			for (String option: options)
 				output.addLine("> " + option);
-			output.addPatternLine('=', 10);
+			output.addPatternLine('=', 12);
 			
 			input = getInput();
 			
 			if (options.contains(input))
 				return input;
 			
+			if (input == null)
+				return null;
+			
 			output.addLine("Wrong input! Please try again");
-		}
+		}		
 	}
 	
 	/*
@@ -74,6 +77,8 @@ public class Session extends Thread {
 		loggedOptions.add("Exit");
 		
 		while(true) {
+			output.addPatternLine('=', 12);
+			
 			if (user == null) {
 				output.addLine("Welcome guest, pick one option");
 				input = getInputFromOptions(guestOptions);
@@ -82,7 +87,10 @@ public class Session extends Thread {
 				input = getInputFromOptions(loggedOptions);
 			}
 			
-			if (input.equals("Login")) {
+			if (input == null || input.equals("Exit")){
+				exit();
+				break;
+			} else if (input.equals("Login")) {
 				login();
 			} else if (input.equals("Register")) {
 				register();
@@ -96,9 +104,6 @@ public class Session extends Thread {
 				deleteEmail();
 			} else if (input.equals("Logout")) {
 				logout();
-			} else if (input.equals("Exit")) {
-				exit();
-				break;
 			}
 		}
 	}
@@ -187,7 +192,7 @@ public class Session extends Thread {
 			to.addEmail(email);
 			output.addLine("Email sent successfully");
 		} else {
-			output.addLine("[ERROR] Failed to send email. Receiver does't exists");
+			output.addLine("[ERROR] Failed to send email. Receiver doesn't exists");
 		}
 	}
 	

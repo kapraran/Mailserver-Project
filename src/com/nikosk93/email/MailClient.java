@@ -33,7 +33,7 @@ public class MailClient {
 		if (connect()) {
 			start();
 		} else {
-			exit();
+			exit("[ERROR] Can't connect to server");
 		}
 	}
 	
@@ -70,7 +70,8 @@ public class MailClient {
 	}
 	
 	/*
-	 * Εμφανίζει τα δεδομένα που στέλνει ο server
+	 * Εμφανίζει τα δεδομένα που στέλνει ο server. Σε περίπτωση που ο server επιστρέψει EXIT_FLAG 
+	 * τότε επιστρέφει false
 	 */
 	private boolean displayOutput() {
 		String response;
@@ -89,7 +90,7 @@ public class MailClient {
 			
 			System.out.print(buffer.flush());
 		} catch (ClassNotFoundException | IOException e) {
-			exit("Lost connection to server");
+			exit("[ERROR] Lost connection to server");
 		}
 		
 		return true;
@@ -102,7 +103,7 @@ public class MailClient {
 		try {
 			serverOutput.writeObject(input);
 		} catch (IOException e) {
-			exit("Lost connection to server");
+			exit("[ERROR] Lost connection to server");
 		}
 	}
 	
@@ -115,7 +116,7 @@ public class MailClient {
 			serverInput.close();
 			serverOutput.close();
 			server.close();
-		} catch (IOException e) {}
+		} catch (Exception e) {}
 	}
 	
 	/*
@@ -133,7 +134,7 @@ public class MailClient {
 		
 		if (error != null) {
 			status = 1;
-			System.out.println("[ERROR] " + error);
+			System.out.println(error);
 		}
 		
 		closeStreams();
@@ -151,7 +152,7 @@ public class MailClient {
 				new MailClient();
 			}
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("[ERROR] Please use a valid <ip> <port> combination");
 		}
 	}
 }
