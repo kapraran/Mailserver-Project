@@ -49,7 +49,7 @@ public class MailServer {
 		
 		a3.addEmail(new Email("ria@csd.gr", "you@csd.gr", "Today's class canceled", "Integer ullamcorper lobortis pretium. Donec dignissim eu velit quis interdum. "));
 		a3.addEmail(new Email("nick@csd.gr", "you@csd.gr", "Hi, Do you have a minute to talk about C++?", "Donec dignissim eu velit quis interdum. Cras egestas nulla tincidunt velit lacinia, eu malesuada urna sodales."));
-		a3.addEmail(new Email("ria@csd.gr", "you@csd.gr", "Hello!", "Welcome to csd. none"));
+		a3.addEmail(new Email("ria@csd.gr", "you@csd.gr", "Hello!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc arcu libero, aliquam a aliquam eget."));
 		
 		addAccount(a1);
 		addAccount(a2);

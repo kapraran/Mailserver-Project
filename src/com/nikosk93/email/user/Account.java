@@ -71,8 +71,15 @@ public class Account {
 	/*
 	 * Προσθέτει το email στο mailbox
 	 */
-	public void addEmail(Email email) {
-		mailbox.add(email);
+	public boolean addEmail(Email email) {
+		if (email.getReceiver().equals(email.getSender()))
+			return false;
+		
+		if (!email.getReceiver().equals(username))
+			return false;
+		
+		mailbox.add(0, email);
+		return true;
 	}
 	
 	/*

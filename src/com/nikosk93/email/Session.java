@@ -188,8 +188,7 @@ public class Session extends Thread {
 		to = server.getAccountByUsername(receiver);
 		email = new Email(user.getUsername(), receiver, subject, mainbody);
 		
-		if (to != null) {
-			to.addEmail(email);
+		if (to != null && to.addEmail(email)) {
 			output.addLine("Email sent successfully");
 		} else {
 			output.addLine("[ERROR] Failed to send email. Receiver doesn't exists");
@@ -227,7 +226,11 @@ public class Session extends Thread {
 		int id;
 		
 		output.addLine("Email id:");
-		id = Integer.parseInt(getInput());
+		try {
+			id = Integer.parseInt(getInput());
+		} catch (Exception e) {
+			id = -1;
+		}
 		
 		email = user.getEmail(id);
 		
@@ -257,7 +260,11 @@ public class Session extends Thread {
 		int id;
 		
 		output.addLine("Email id:");
-		id = Integer.parseInt(getInput());
+		try {
+			id = Integer.parseInt(getInput());
+		} catch (Exception e) {
+			id = -1;
+		}
 		
 		if (user.deleteEmail(id)) {
 			output.addLine("Email with id #" + id + " deleted successfully");
