@@ -198,7 +198,12 @@ public class Session extends Thread {
 	/*
 	 * Εμφανίζει το mailbox του user
 	 */
-	private void showEmails() {
+	private boolean showEmails() {
+		if (user.getMailbox().size() < 1) {
+			output.addLine("Your mailbox is empty");
+			return false;
+		}
+		
 		output.addFixedLengthString("Id", 12);
 		output.addFixedLengthString("From", 30);
 		output.addFixedLengthString("Subject", 50);
@@ -216,6 +221,8 @@ public class Session extends Thread {
 			output.addFixedLengthString(email.getSubject(), 50);
 			output.addSeparator();
 		}
+		
+		return true;
 	}
 	
 	/*
@@ -235,11 +242,11 @@ public class Session extends Thread {
 		email = user.getEmail(id);
 		
 		if (email != null) {
-			output.add("From: ");
+			output.addFixedLengthString("From: ", 9);
 			output.add(email.getSender());
 			output.addSeparator();
 			
-			output.add("Subject: ");
+			output.addFixedLengthString("Subject: ", 9);
 			output.add(email.getSubject());
 			output.addSeparator();
 			
