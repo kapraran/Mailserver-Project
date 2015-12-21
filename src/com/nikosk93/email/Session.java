@@ -11,13 +11,17 @@ import com.nikosk93.email.utils.BufferedString;
 
 public class Session extends Thread {
 	public static final String EXIT_FLAG = "Exit_Application_Flag";
+	private static final int ID_COL_LENGTH = 10;
+	private static final int FROM_COL_LENGTH = 22;
+	private static final int SUBJECT_COL_LENGTH = 40;
+	
 	public static MailServer server;
 	
-	protected Socket client;
-	protected ObjectInputStream clientInput;
-	protected ObjectOutputStream clientOutput;
-	protected BufferedString output;
-	protected Account user;
+	private Socket client;
+	private ObjectInputStream clientInput;
+	private ObjectOutputStream clientOutput;
+	private BufferedString output;
+	private Account user;
 	
 	public Session(Socket client) {
 		this.client = client;
@@ -47,11 +51,8 @@ public class Session extends Thread {
 			
 			input = getInput();
 			
-			if (options.contains(input))
+			if (options.contains(input) || input == null)
 				return input;
-			
-			if (input == null)
-				return null;
 			
 			output.addLine("Wrong input! Please try again");
 		}		
@@ -62,6 +63,7 @@ public class Session extends Thread {
 	 */
 	public void run() {
 		String input;
+		boolean prevStatus = true;
 		
 		ArrayList<String> guestOptions = new ArrayList<>();
 		guestOptions.add("Login");
@@ -77,13 +79,11 @@ public class Session extends Thread {
 		loggedOptions.add("Exit");
 		
 		while(true) {
-			output.addPatternLine('=', 12);
-			
 			if (user == null) {
-				output.addLine("Welcome guest, pick one option");
+				prevStatus = welcomeMessage("Welcome guest, pick one option", prevStatus);
 				input = getInputFromOptions(guestOptions);
 			} else {
-				output.addLine("Welcome back " + user.getUsername());
+				prevStatus = welcomeMessage("Welcome back " + user.getUsername(), prevStatus);				
 				input = getInputFromOptions(loggedOptions);
 			}
 			
@@ -106,6 +106,20 @@ public class Session extends Thread {
 				logout();
 			}
 		}
+	}
+	
+	/*
+	 * Καλωσορίζει τον χρήστη
+	 */
+	private boolean welcomeMessage(String message, boolean prev) {
+		if ( (user == null && prev == true) || (user != null && prev == false)) {
+			output.addPatternLine('=', 12);
+			output.addLine(message);
+			
+			return !prev;
+		}
+		
+		return prev;
 	}
 	
 	/*
@@ -204,21 +218,17 @@ public class Session extends Thread {
 			return false;
 		}
 		
-		output.addFixedLengthString("Id", 12);
-		output.addFixedLengthString("From", 30);
-		output.addFixedLengthString("Subject", 50);
+		output.addFixedLengthString("Id", ID_COL_LENGTH);
+		output.addFixedLengthString("From", FROM_COL_LENGTH);
+		output.addFixedLengthString("Subject", SUBJECT_COL_LENGTH);
 		output.addSeparator();
 		
 		for (Email email : user.getMailbox()) {
-			String id = email.getId() + ". ";
+			String id = String.format("%d. %s", email.getId(), email.isUnread() ? "[New]" : "");
 			
-			if (email.isUnread())
-				id += "[New]";
-			
-			output.addFixedLengthString(id, 12);
-			
-			output.addFixedLengthString(email.getSender(), 30);
-			output.addFixedLengthString(email.getSubject(), 50);
+			output.addFixedLengthString(id, ID_COL_LENGTH);
+			output.addFixedLengthString(email.getSender(), FROM_COL_LENGTH);
+			output.addFixedLengthString(email.getSubject(), SUBJECT_COL_LENGTH);
 			output.addSeparator();
 		}
 		

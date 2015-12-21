@@ -1,4 +1,6 @@
 .settings/
+.idea/
 bin/
 .project
 .classpath
+Emails.iml

@@ -86,9 +86,9 @@ public class BufferedString {
 	 * Επιστρέφει το περιεχόμενο του buffer και τον καθαρίζει
 	 */
 	public String flush() {
-		String contents = buffer;
+		String content = buffer;
 		clear();
 		
-		return contents;
+		return content;
 	}
 }

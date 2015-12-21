@@ -82,7 +82,7 @@ public class MailClient {
 			
 			if (response.equals(EXIT_FLAG))
 				return false;
-			
+
 			buffer.addPatternLine('-', 12);
 			buffer.addLine("MailServer:");
 			buffer.addPatternLine('-', 12);
@@ -151,7 +151,7 @@ public class MailClient {
 			} else {
 				new MailClient();
 			}
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			System.out.println("[ERROR] Please use a valid <ip> <port> combination");
 		}
 	}
