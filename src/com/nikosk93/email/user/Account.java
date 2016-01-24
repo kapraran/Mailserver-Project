@@ -18,7 +18,7 @@ public class Account {
 		
 		this.username = username;
 		this.password = password;
-		mailbox = new ArrayList<>();
+		mailbox = new ArrayList<Email>();
 	}
 	
 	/*

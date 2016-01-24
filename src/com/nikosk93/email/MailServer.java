@@ -22,8 +22,8 @@ public class MailServer {
 	
 	public MailServer(int port) {
 		this.port = port;
-		sessions = new ArrayList<>();
-		accounts = new ArrayList<>();
+		sessions = new ArrayList<Session>();
+		accounts = new ArrayList<Account>();
 		
 		Session.server = this;
 		

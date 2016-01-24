@@ -89,7 +89,7 @@ public class MailClient {
 			buffer.add(response);
 			
 			System.out.print(buffer.flush());
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (Exception e) {
 			exit("[ERROR] Lost connection to server");
 		}
 		

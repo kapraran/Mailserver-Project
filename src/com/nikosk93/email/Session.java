@@ -65,12 +65,12 @@ public class Session extends Thread {
 		String input;
 		boolean prevStatus = true;
 		
-		ArrayList<String> guestOptions = new ArrayList<>();
+		ArrayList<String> guestOptions = new ArrayList<String>();
 		guestOptions.add("Login");
 		guestOptions.add("Register");
 		guestOptions.add("Exit");
 		
-		ArrayList<String> loggedOptions = new ArrayList<>();
+		ArrayList<String> loggedOptions = new ArrayList<String>();
 		loggedOptions.add("NewEmail");
 		loggedOptions.add("ShowEmails");
 		loggedOptions.add("ReadEmail");
@@ -129,7 +129,7 @@ public class Session extends Thread {
 		try {
 			clientOutput.writeObject(output.flush());
 			return (String)clientInput.readObject();
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
